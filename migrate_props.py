@@ -27,7 +27,9 @@ props_to_update: list[CsvProp] = [prop for prop in props if prop["Internal name"
 # Create new properties
 create_inputs: list[CreatePropInput] = []
 for prop in props_to_create:
-    source_options: dict = json.loads(prop["Options"])
+    source_options: list[dict] = []
+    if prop.get("Options"):
+        source_options = json.loads(prop["Options"])
     options: list[CreatePropInputOption] = []
     for source_option in source_options:
         options.append({
