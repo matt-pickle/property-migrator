@@ -1,6 +1,5 @@
 from typing import TypedDict
 import requests
-import time
 
 class Property(TypedDict):
     name: str
