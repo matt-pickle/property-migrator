@@ -43,6 +43,8 @@ for prop in props_to_create:
         field_type = "number"
     elif prop["Type"] == "datetime":
         field_type = "date"
+    elif prop["Type"] == "date":
+        field_type = "date"
     elif prop["Type"] == "enumeration":
         field_type = "select"
     elif prop["Type"] == "boolean":

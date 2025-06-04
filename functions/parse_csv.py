@@ -5,7 +5,7 @@ from typing import TypedDict, Literal, Any
 CsvProp = TypedDict('CsvProp', {
     "Name": str,
     "Internal name": str,
-    "Type": Literal["string", "number", "datetime", "enumeration", "boolean"],
+    "Type": Literal["string", "number", "date", "datetime", "enumeration", "boolean"],
     "Description": str,
     "Group name": str,
     "Form field": Literal["TRUE", "FALSE"],
