@@ -43,7 +43,7 @@ def batch_create_properties(
             print(f"Created properties: {len(json_response['results'])}")
             records.extend(json_response["results"])
         except requests.exceptions.RequestException as e:
-            print(f"Error updating {record_type}: {e}")
+            print(f"Error creating properties: {e}")
 
         time.sleep(0.25)
     
