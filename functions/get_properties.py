@@ -1,9 +1,27 @@
-from typing import TypedDict
+from typing import TypedDict, NotRequired, Literal
 import requests
+
+class Option(TypedDict):
+    label: str
+    value: str
+    hidden: bool
+    description: str
 
 class Property(TypedDict):
     name: str
-    hubspotDefined: bool
+    label: str
+    type: Literal['string', 'number', 'date', 'datetime', 'enumeration', 'bool']
+    formField: bool
+    groupName: str
+    description: str
+    hasUniqueValue: bool
+    fieldType: Literal['textarea', 'text', 'date', 'file', 'number', 'select', 'radio', 'checkbox', 'booleancheckbox', 'calculation_equation']
+    externalOptions: bool
+    hidden: bool
+    hubspotDefined: NotRequired[bool]
+    referencedObjectType: NotRequired[Literal['OWNER']]
+    calculationFormula: NotRequired[str]
+    options: NotRequired[list[Option]]
 
 class Response(TypedDict):
     results: list[Property]
@@ -22,7 +40,7 @@ def get_properties(
         json_response: Response = response.json()
         results = json_response["results"]
         print(f"Retrieved properties: {len(results)}")
-        properties = [result for result in results if result["hubspotDefined"] == False]
+        properties = [result for result in results if not result.get('hubspotDefined')]
     except requests.exceptions.RequestException as e:
         print(f"Error getting properties: {e}")
 

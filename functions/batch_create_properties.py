@@ -2,17 +2,17 @@ from typing import TypedDict, Literal, Required
 import requests
 import time
 
-class CreatePropInputOption(TypedDict, total=False):
-    hidden: Required[bool]
+class CreatePropInputOption(TypedDict):
+    label: str
+    value: str
+    hidden: bool
     description: str
-    label: Required[str]
-    value: Required[str]
 
 
 class CreatePropInput(TypedDict, total=False):
     description: str
     label: Required[str]
-    type: Required[Literal["string", "number", "date", "datetime", "enumeration", "boolean"]]
+    type: Required[Literal["string", "number", "date", "datetime", "enumeration", "bool"]]
     formField: bool
     groupName: Required[str]
     referencedObjectType: Literal["OWNER"] | None
@@ -43,7 +43,7 @@ def batch_create_properties(
             print(f"Created properties: {len(json_response['results'])}")
             records.extend(json_response["results"])
         except requests.exceptions.RequestException as e:
-            print(f"Error creating properties: {e}")
+            print(f"Error creating properties: {e.response.text}")
 
         time.sleep(0.25)
     
