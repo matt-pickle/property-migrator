@@ -1,6 +1,8 @@
+import time
 from functions.get_env import get_env
 from functions.parse_csv import CsvProp, parse_csv
 from functions.get_properties import Option, Property, get_properties
+from functions.update_property import UpdatePropData, update_property
 from functions.batch_create_properties import CreatePropInput, batch_create_properties
 
 SOURCE_PRIVATE_APP_KEY: str = get_env("SOURCE_PRIVATE_APP_KEY")
@@ -26,6 +28,22 @@ props_to_create: list[Property] = [prop for prop in source_props if prop["name"]
 props_to_update: list[Property] = [prop for prop in source_props if prop["name"] in existing_prop_names]
 
 # Update existing properties
+for prop in props_to_update:
+    options: list[Option] = prop.get("options", [])
+    data: UpdatePropData = {
+        "label": prop["label"],
+        "type": prop["type"],
+        "description": prop["description"],
+        "groupName": prop["groupName"],
+        "formField": prop["formField"],
+        "hasUniqueValue": prop["hasUniqueValue"],
+        "fieldType": prop["fieldType"],
+        "referencedObjectType": prop.get("referencedObjectType"),
+        "externalOptions": prop["externalOptions"],
+        "options": options
+    }
+    update_property(record_type, prop["name"], data, TARGET_PRIVATE_APP_KEY)
+    time.sleep(0.25)
 
 # Create new properties
 create_inputs: list[CreatePropInput] = []
